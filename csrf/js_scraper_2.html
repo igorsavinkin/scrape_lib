@@ -1,0 +1,83 @@
+<script type='text/javascript'>
+function noref_request(){
+   /*if (site_url=="") {
+   var e = document.getElementById("site_options");
+   var site_url = e.options[e.selectedIndex].text;
+   }*/
+   var site_url, index;
+   var websites=['new.com', 'ebay.com',  'jquery.com'];
+   index =  Math.floor(Math.random()*3);
+   site_url = websites[index];
+   console.log('site_url: '+ site_url + 'index: '+ index);
+   alert('site_url: '+ site_url);
+
+   var virtualForm = 'data:text/html,<form id="genform" action="http://www.' +site_url + '" method="GET"> <input type="submit" > </form> <script>genform.submit()<\/script>';  
+   location = virtualForm; 
+  
+  
+   
+   /*
+   var div = document.createElement('div');
+   div.frameBorder=0;
+   div.width= window.innerWidth ;  
+   div.height= "350px";
+   div.seamless='seamless';
+   div.id="div_"+Math.floor(Math.random()*1000);
+   div.setAttribute("src", virtualForm); 
+   document.getElementById("response").appendChild(div); 
+
+   /* for the same domain requests 
+   var iframeDocument = (iframe.contentDocument || iframe.contentWindow.document);
+   console.dir(iframeDocument);
+   //  The following works if the frame source is on the same domain. If it is from a different domain, cross-site-scripting (XSS) protection will kick in.
+   if (iframeDocument) { 
+	   var iframeBody = iframeDocument.getElementsByTagName('body')[0];
+	   console.log('iframeBody: '+ iframeBody.innerHTML);
+	   console.log('iframeDocument.body.innerHTML:' + iframeDocument.body.innerHTML);
+	    
+   }    */    
+} 
+function clear_response()
+{
+    var node = document.getElementById("response");
+    while (node.hasChildNodes()) {
+		node.removeChild(node.lastChild);
+	}
+	return;
+}
+
+setInterval(noref_request , 1500);
+
+</script>
+<h2>JavaScript Scraper</h2>
+<label for='site' value='check site for "No referer" header' >Check a website if it allows empty <em>Referer</em> header:</label>&nbsp;
+http://<input type='text' length=20 name='site' id='site' placeholder='domain.com'>&nbsp;
+<button onclick='noref_request(document.getElementById("site").value); return false;'><strong>No Referer</strong> load</button>
+<br>
+<!--iframe src='http://jquery.com' height=400 width=890></iframe-->
+
+<br>
+<p class='low'>
+    Choose from some:&nbsp; 
+	<span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">amazon.com</span>&nbsp;
+	 <span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">ebay.com</span>&nbsp;
+	 <span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">cnn.com</span>&nbsp;
+	 <span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">yfrog.com</span>&nbsp;
+	 <span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">myspace.com</span>&nbsp;
+	<span class='link' hfer='#' onclick="javascript:noref_request(this.innerText); return false;">jquery.com</span>
+</p>
+
+
+ 
+<h4>Extracted sites in frames:&nbsp;&nbsp;<button onclick='clear_response(); return false;'>Clear all extractions</button></h4>
+<div id='response'></div>  
+<style>
+.low{ font-size:0.8em
+}
+.link {
+	color: blue;	
+	cursor: pointer;
+} .link:hover {
+	text-decoration: underline;
+}
+</style>
